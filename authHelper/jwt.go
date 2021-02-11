@@ -1,10 +1,20 @@
-package model
+package authHelper
 
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )
+
+type TokenJWT struct {
+	User string
+	Username string
+	Name string
+	Role string
+	Scope string
+	Expired string
+	Token string
+}
 
 func (r *TokenJWT) Init(string2 ...string)  {
 	r.User = string2[0]
@@ -13,7 +23,7 @@ func (r *TokenJWT) Init(string2 ...string)  {
 	r.Role = string2[3]
 }
 
-func (r *TokenJWT) Create() (error) {
+func (r *TokenJWT) CreateJWT() (error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["user"] = r.User
@@ -31,8 +41,7 @@ func (r *TokenJWT) Create() (error) {
 	return nil
 }
 
-func (r *TokenJWT) Validate() (jwt.MapClaims, error) {
-
+func (r *TokenJWT) ValidateJWT() (jwt.MapClaims, error) {
 	token, err := jwt.Parse(r.Token, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Invalid token")
@@ -49,3 +58,4 @@ func (r *TokenJWT) Validate() (jwt.MapClaims, error) {
 	}
 	return nil, errors.New("Invalid token")
 }
+

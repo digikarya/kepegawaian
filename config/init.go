@@ -8,7 +8,7 @@ type Config struct {
 type DBConfig struct {
 	Dialect  string
 	Host     string
-	Port     int
+	Port     string
 	Username string
 	Password string
 	Name     string
@@ -21,19 +21,18 @@ func GetConfig() *Config {
 	return &Config{
 		DB: &DBConfig{
 			Dialect:  "mysql",
-			Host:     "quickmysql",
-			Port:     3306,
+			Host:     "pegawai-mysql",
+			Port:     "3306",
 			Username: "root",
-			Password: "admin@321",
-			Name:     "todoapp",
+			Password: "admin321",
 			Charset:  "utf8",
-			Database:  "quickCount",
+			Database:  "kepegawaain",
 		},
 	}
 }
 
 func (c *Config)  GetDSN() string {
 	//DSN Format
-	//dsn := "zhi:admin123@tcp(127.0.0.1:3306)/auth?charset=utf8mb4&parseTime=True&loc=Local"
+	//dsn := "zhi:admin123@tcp(127.0.0.1:3306)/authHelper?charset=utf8mb4&parseTime=True&loc=Local"
 	return c.DB.Username+":"+c.DB.Password+"@tcp("+c.DB.Host+")/"+c.DB.Database+"?charset=utf8mb4&parseTime=True&loc=Local"
 }
